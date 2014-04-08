@@ -7,6 +7,9 @@ from test_project.formtest.views import (FailureUrlView, FailureUrlArgView,
         SuccessUrlArgView, SuccessUrlKwargView, SuccessUrlArgKwargView,
         NoUrlView)
 
+from test_project.formtest.forms import (LabelSuffixTestForm,
+    LabelSuffixInClassTestForm)
+
 
 class RedirectReverseTestCase(UnitTestCase):
     """Test the RedirectReverseTestCase.
@@ -72,3 +75,28 @@ class RedirectReverseTestCase(UnitTestCase):
         """
         v = NoUrlView()
         self.assertRaises(NotImplementedError, v.get_failure_url)
+
+
+class FormLabelSuffixTestCase(UnitTestCase):
+    """Tests for the FormLabelSuffixMixin
+    """
+    def setUp(self):
+        """Prepare the forms
+        """
+        self.form1 = LabelSuffixTestForm()
+        self.form2 = LabelSuffixInClassTestForm()
+
+    def test_suffix_override(self):
+        """Label suffix should be overridden correctly
+        """
+        # Default is now empty string (not ':')
+        self.assertEqual(self.form1.label_suffix, '')
+        self.assertEqual(self.form2.label_suffix, '>')
+
+    def test_suffix_preserved(self):
+        """Label suffix is preserved if specified in custom label_tag call
+        """
+        # label_tag is only exposed on a BoundField, which a template obtains
+        # by iterating the form's generator.
+        for field in self.form1:
+            self.assertTrue('::' in field.label_tag(label_suffix='::'))
