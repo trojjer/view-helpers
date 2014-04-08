@@ -1,8 +1,6 @@
+"""Test the Form-based view and form mixins.
 """
-Test the Form-based view mixins.
-"""
-
-from django.test import TestCase
+from unittest import TestCase as UnitTestCase
 
 from test_project.formtest.views import (FailureUrlView, FailureUrlArgView,
         FailureUrlKwargView, FailureUrlArgKwargView, SuccessUrlView,
@@ -10,7 +8,7 @@ from test_project.formtest.views import (FailureUrlView, FailureUrlArgView,
         NoUrlView)
 
 
-class RedirectReverseTestCase(TestCase):
+class RedirectReverseTestCase(UnitTestCase):
     """Test the RedirectReverseTestCase.
     """
     def test_success_url_plain(self):
